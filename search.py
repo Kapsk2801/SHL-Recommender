@@ -1,29 +1,33 @@
 import json
-import faiss
-from sentence_transformers import SentenceTransformer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
-# load once globally
-print("Loading embedding model...")
-model = SentenceTransformer("all-MiniLM-L6-v2")
-
-print("Loading FAISS index...")
-index = faiss.read_index("catalog.index")
+print("Loading catalog...")
 
 with open("catalog.json", "r", encoding="utf-8") as f:
     catalog = json.load(f)
 
+texts = [item["name"] for item in catalog]
+
+print("Building TF-IDF vectors...")
+
+vectorizer = TfidfVectorizer()
+tfidf_matrix = vectorizer.fit_transform(texts)
+
 
 def search_catalog(query, top_k=5):
-    query_embedding = model.encode(
-        [query],
-        convert_to_numpy=True
-    )
+    query_vector = vectorizer.transform([query])
 
-    distances, indices = index.search(query_embedding, top_k)
+    similarities = cosine_similarity(
+        query_vector,
+        tfidf_matrix
+    ).flatten()
+
+    top_indices = similarities.argsort()[-top_k:][::-1]
 
     results = []
 
-    for idx in indices[0]:
+    for idx in top_indices:
         results.append(catalog[idx])
 
-    return resultss
+    return results
