@@ -15,6 +15,15 @@ class ChatRequest(BaseModel):
     messages: List[Message]
 
 
+@app.get("/")
+def root():
+    return {
+        "message": "SHL Recommender API is live.",
+        "health_check": "/health",
+        "api_docs": "/docs"
+    }
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}

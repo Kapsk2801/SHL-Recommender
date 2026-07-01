@@ -18,9 +18,6 @@ INJECTION_WORDS = [
 
 
 def get_latest_user_message(messages):
-    """
-    Get latest user message from conversation
-    """
     for msg in reversed(messages):
         if msg["role"] == "user":
             return msg["content"]
@@ -28,9 +25,6 @@ def get_latest_user_message(messages):
 
 
 def extract_context(messages):
-    """
-    Combine all user messages for refinement handling
-    """
     user_messages = []
 
     for msg in messages:
@@ -41,17 +35,11 @@ def extract_context(messages):
 
 
 def is_offtopic(text):
-    """
-    Detect off-topic hiring/legal queries
-    """
     text = text.lower()
     return any(word in text for word in OFFTOPIC_WORDS)
 
 
 def is_prompt_injection(text):
-    """
-    Detect prompt injection attempts
-    """
     text = text.lower()
     return any(word in text for word in INJECTION_WORDS)
 
@@ -66,7 +54,6 @@ def is_vague(text):
         "want an assessment"
     ]
 
-    # If enough hiring context exists, don't treat it as vague
     context_keywords = [
         "developer",
         "engineer",
@@ -85,9 +72,6 @@ def is_vague(text):
 
 
 def is_comparison(text):
-    """
-    Detect comparison requests
-    """
     text = text.lower()
 
     comparison_keywords = [
@@ -101,9 +85,6 @@ def is_comparison(text):
 
 
 def handle_comparison(text):
-    """
-    Compare two SHL assessments
-    """
     results = search_catalog(text, top_k=2)
 
     if len(results) < 2:
@@ -123,15 +104,11 @@ def handle_comparison(text):
             }
             for r in results
         ],
-        "end_of_conversation": False
+        "end_of_conversation": True
     }
 
 
 def handle_chat(messages):
-    """
-    Main agent logic
-    """
-
     latest = get_latest_user_message(messages)
     full_context = extract_context(messages)
 
@@ -140,7 +117,7 @@ def handle_chat(messages):
         return {
             "reply": "I can only assist with SHL assessment recommendations.",
             "recommendations": [],
-            "end_of_conversation": False
+            "end_of_conversation": True
         }
 
     # Off-topic refusal
@@ -148,7 +125,7 @@ def handle_chat(messages):
         return {
             "reply": "I only assist with SHL assessments and cannot answer unrelated hiring or legal questions.",
             "recommendations": [],
-            "end_of_conversation": False
+            "end_of_conversation": True
         }
 
     # Comparison mode
@@ -178,5 +155,5 @@ def handle_chat(messages):
             }
             for r in recommendations
         ],
-        "end_of_conversation": False
+        "end_of_conversation": bool(recommendations)
     }
