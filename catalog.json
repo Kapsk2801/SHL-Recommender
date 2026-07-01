@@ -1,9 +1,5 @@
 [
   {
-    "name": "Products",
-    "url": "https://www.shl.com/products/"
-  },
-  {
     "name": "Occupational Personality Questionnaire (OPQ)",
     "url": "https://www.shl.com/products/assessments/personality-assessment/shl-occupational-personality-questionnaire-opq/"
   },
@@ -32,24 +28,8 @@
     "url": "https://www.shl.com/products/360/"
   },
   {
-    "name": "Assessments",
-    "url": "https://www.shl.com/products/assessments/"
-  },
-  {
-    "name": "Behavioral Assessments",
-    "url": "https://www.shl.com/products/assessments/behavioral-assessments/"
-  },
-  {
-    "name": "Personality Assessments",
-    "url": "https://www.shl.com/products/assessments/personality-assessment/"
-  },
-  {
     "name": "Video Interviews",
     "url": "https://www.shl.com/products/video-interviews/"
-  },
-  {
-    "name": "Skills & Simulations",
-    "url": "https://www.shl.com/products/assessments/skills-and-simulations/"
   },
   {
     "name": "Call Center Simulations",
@@ -74,13 +54,5 @@
   {
     "name": "Outsourced Assessments (VADC)",
     "url": "https://www.shl.com/products/assessments/assessment-and-development-centers/"
-  },
-  {
-    "name": "Learn More",
-    "url": "https://www.shl.com/products/assessments/behavioral-assessments/universal-competency-framework/"
-  },
-  {
-    "name": "Video FeedbackMake a positive impression of your brand by providing first of its kind, personalized feedback to every candidate.Discover Video Feedback",
-    "url": "https://www.shl.com/products/video-feedback/"
   }
 ]
