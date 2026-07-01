@@ -57,20 +57,31 @@ def is_prompt_injection(text):
 
 
 def is_vague(text):
-    """
-    Detect vague user intent
-    """
+    text = text.lower()
+
     vague_patterns = [
         "need assessment",
         "need an assessment",
-        "hire someone",
         "looking for test",
         "want an assessment"
     ]
 
-    text = text.lower()
+    # If enough hiring context exists, don't treat it as vague
+    context_keywords = [
+        "developer",
+        "engineer",
+        "python",
+        "java",
+        "backend",
+        "frontend",
+        "skills",
+        "role"
+    ]
 
-    return any(v in text for v in vague_patterns) or len(text.split()) < 4
+    if any(word in text for word in context_keywords):
+        return False
+
+    return any(v == text.strip() for v in vague_patterns) or len(text.split()) < 3
 
 
 def is_comparison(text):
